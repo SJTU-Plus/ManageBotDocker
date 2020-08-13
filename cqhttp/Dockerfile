@@ -1,4 +1,5 @@
 FROM ubuntu:latest
+LABEL maintainer="iskyzh@gmail.com"
 
 WORKDIR /app
 RUN apt-get update -y -qq && apt-get install wget -qq
