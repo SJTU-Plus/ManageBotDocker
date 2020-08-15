@@ -1,47 +1,27 @@
 version: "3"
 services:
+
   go-cqhttp:
     build: ./cqhttp
     image: sjtu-plus/go-cqhttp:1.0
     volumes:
       - "./go-cqhttp-data:/go-cqhttp-data"
-  cqhttp:
-    image: richardchien/cqhttp:latest
-    volumes:
-      - "./coolq:/root/coolq" # 用于保存COOLQ文件的目录
-    environment:
-      - COOLQ_ACCOUNT= # 指定要登陆的QQ号，用于自动登录
-      - FORCE_ENV=true
-      - CQHTTP_USE_HTTP=false
-      - CQHTTP_USE_WS=false
-      - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_API_URL=ws://nonebot:8080/ws/api/
-      - CQHTTP_WS_REVERSE_EVENT_URL=ws://nonebot:8080/ws/event/
     depends_on:
       - nonebot
-    ports:
-      - 9000:9000 # noVNC 端口，用于从浏览器控制 酷Q
 
   nonebot:
-    build: ./qbot # 构建nonebot执行环境，Dockerfile见下面的例子
+    build: ./qbot
     expose:
       - "8080"
     environment:
       - TZ=Asia/Shanghai
       - ATTESTATION_SECRET=
-      - SMTP_SERVER=
-      - SMTP_PORT=
-      - SMTP_USER=
-      - SMTP_PASSWD=
-      - ATTESTATION_SECRET=
-      - REDIS_HOST=redis
-      - SUPER_USER=
     volumes:
-      - "./qbot:/root/qbot" # 项目文件所在目录
-    depends_on:
-      - redis
-      
-  redis:
-    image: redis:latest
-    expose:
-      - "6379"
+      - "./qbot:/root/qbot"
+
+  webserver:
+    build: ./web
+    ports:
+      - 5000:5000
+    volumes:
+      - "./web:/root/web"
