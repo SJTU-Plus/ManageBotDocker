@@ -4,7 +4,7 @@
 
 这里提供使用docker-compose同时管理几个容器的方法。
 
-1.首先将本项目下载到本地，再将[ManagerBot](https://github.com/SJTU-Plus/ManagerBot)和[ManagerBotServer](https://github.com/SJTU-Plus/ManagerBotServer)下载到本地`qbot`和`web`文件夹，工程结构应该如下：
+1.首先将本项目下载到本地，再将[go-cqhttp](https://github.com/Mrs4s/go-cqhttp)，[ManagerBot](https://github.com/SJTU-Plus/ManagerBot)和[ManagerBotServer](https://github.com/SJTU-Plus/ManagerBotServer)下载到本地的`go-cqhttp`、`qbot`和`web`文件夹，工程结构应该如下：
 
 ```
 docker-compose.yml
@@ -14,14 +14,14 @@ web
 qbot
   Dockerfile
   ...
-cqhttp
+go-cqhttp
   Dockerfile
-  run.sh
+  ...
 go-cqhttp-data
 ```
 2.修改`docker-compose.yml`文件中的`ATTESTATION_SECRET`。
 
-3.按照[ManagerBot](https://github.com/SJTU-Plus/ManagerBot)中的内容新建并修改`qbot/config.json`。
+3.按照[ManagerBotServer](https://github.com/SJTU-Plus/ManagerBotServer)中的内容新建并修改`web/config.json`。
 
 4.运行`docker-compose build`构建容器。
 

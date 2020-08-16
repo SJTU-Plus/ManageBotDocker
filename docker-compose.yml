@@ -2,10 +2,10 @@ version: "3"
 services:
 
   go-cqhttp:
-    build: ./cqhttp
+    build: ./go-cqhttp
     image: sjtu-plus/go-cqhttp:1.0
     volumes:
-      - "./go-cqhttp-data:/go-cqhttp-data"
+      - "./go-cqhttp-data:/data"
     depends_on:
       - nonebot
 
