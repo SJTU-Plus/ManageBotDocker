@@ -1,1 +1,12 @@
+# Data
 /go-cqhttp-data
+/group-plus-data
+
+# Sensitive information
+docker-compose.yml
+
+# Git repos
+/group-plus
+/qbot
+/web
+/go-cqhttp
