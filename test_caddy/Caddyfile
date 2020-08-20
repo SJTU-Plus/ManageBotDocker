@@ -1,0 +1,24 @@
+groups.sjtu.plus.localdomain:80 {
+    @s {
+        not path /static/*
+    }
+    encode gzip
+    reverse_proxy @s group-plus:5000
+    root * /group-plus-static
+    file_server
+}
+
+verify.sjtu.plus.localdomain:80 {
+    encode gzip
+    reverse_proxy webserver:5000
+}
+
+localhost:80 {
+    @s {
+        not path /static/*
+    }
+    encode gzip
+    reverse_proxy @s group-plus:5000
+    root * /group-plus-static
+    file_server
+}

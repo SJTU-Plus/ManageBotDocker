@@ -1,0 +1,56 @@
+version: "3"
+services:
+
+  go-cqhttp:
+    build: ./go-cqhttp
+    image: sjtu-plus/go-cqhttp:1.0
+    volumes:
+      - "./go-cqhttp-data:/data"
+    depends_on:
+      - nonebot
+
+  nonebot:
+    build: ./qbot
+    expose:
+      - "8080"
+    environment:
+      - TZ=Asia/Shanghai
+      - ATTESTATION_SECRET=
+    volumes:
+      - "./qbot:/root/qbot"
+
+  webserver:
+    networks: 
+      - wsgi_net
+    expose:
+      - 5000
+    build: ./web
+    
+  group-plus:
+    networks:
+      - wsgi_net
+    build: ./group-plus
+    image: sjtu-plus/group-plus:1.0
+    expose:
+      - 5000
+    environment:
+      - GITHUB_PERSONAL_ACCESS_TOKEN=some_token   # GitHub personal access token, for triggering workflow
+      - SECRET_KEY=some_secret_key                # Django secret key
+      - ALLOWED_HOST=groups.sjtu.plus.localdomain # Allowed host
+    volumes:
+      - "./group-plus-data:/data"
+
+  test-caddy:
+    networks: 
+      - wsgi_net
+    build: ./test_caddy
+    volumes:
+      - ./group-plus-data/static-files:/group-plus-static:ro
+    depends_on: 
+      - group-plus
+    ports: 
+      - 80:80
+      - 443:443
+
+networks:
+  wsgi_net:
